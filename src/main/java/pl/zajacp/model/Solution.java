@@ -14,16 +14,16 @@ public class Solution {
     private Timestamp created;
     private Timestamp updated;
     private String description;
-    private Integer exercise_id;
-    private Integer user_id;
+    private Exercise exercise;
+    private User user;
 
-    public Solution(String description, int exercise_id, int user_id) {
+    public Solution(String description, Exercise exercise, User user) {
         this.id = 0;
         this.created = Timestamp.valueOf(LocalDateTime.now());
         this.updated = null;
         this.description = description;
-        this.exercise_id = exercise_id;
-        this.user_id = user_id;
+        this.exercise = exercise;
+        this.user = user;
     }
 
     public Solution() {
@@ -31,20 +31,24 @@ public class Solution {
         this.created = Timestamp.valueOf(LocalDateTime.now());
         this.updated = null;
         this.description = null;
-        this.exercise_id = null;
-        this.user_id = null;
+        this.exercise = null;
+        this.user = null;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getCreated() {
-        return created.toString();
+    public Timestamp getCreated() {
+        return created;
     }
 
-    public String getUpdated() {
-        return updated.toString();
+    public Timestamp getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Timestamp updated) {
+        this.updated = updated;
     }
 
     public String getDescription() {
@@ -55,20 +59,20 @@ public class Solution {
         this.description = description;
     }
 
-    public Integer getExercise_id() {
-        return exercise_id;
+    public Exercise getExercise() {
+        return exercise;
     }
 
-    public void setExercise_id(Integer exercise_id) {
-        this.exercise_id = exercise_id;
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public boolean save() {
@@ -77,8 +81,8 @@ public class Solution {
                 String sql = "INSERT INTO Solutions(description, exercise_id, user_id, created) VALUES (?,?,?,?)";
                 PreparedStatement psmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 psmt.setString(1, this.description);
-                psmt.setInt(2, this.exercise_id);
-                psmt.setInt(3, this.user_id);
+                psmt.setInt(2, this.exercise.getId());
+                psmt.setInt(3, this.user.getId());
                 psmt.setTimestamp(4, this.created);
                 psmt.executeUpdate();
                 ResultSet rs = psmt.getGeneratedKeys();
@@ -89,8 +93,8 @@ public class Solution {
                 String sql = "UPDATE Solutions SET description=?, exercise_id=?, user_id=?, updated=? WHERE id=?";
                 PreparedStatement psmt = conn.prepareStatement(sql);
                 psmt.setString(1, this.description);
-                psmt.setInt(2, this.exercise_id);
-                psmt.setInt(3, this.user_id);
+                psmt.setInt(2, this.exercise.getId());
+                psmt.setInt(3, this.user.getId());
                 this.updated = Timestamp.valueOf(LocalDateTime.now());
                 psmt.setTimestamp(4, this.updated);
                 psmt.setInt(5, this.id);
@@ -113,8 +117,8 @@ public class Solution {
                 Solution loadedSolution = new Solution();
                 loadedSolution.id = rs.getInt("id");
                 loadedSolution.description = rs.getString("description");
-                loadedSolution.user_id = rs.getInt("user_id");
-                loadedSolution.exercise_id = rs.getInt("exercise_id");
+                loadedSolution.user = User.loadById(rs.getInt("user_id"));
+                loadedSolution.exercise = Exercise.loadById(rs.getInt("exercise_id"));
                 loadedSolution.created = rs.getTimestamp("created");
                 loadedSolution.updated = rs.getTimestamp("updated");
                 return loadedSolution;
@@ -137,8 +141,8 @@ public class Solution {
                 Solution loadedSolution = new Solution();
                 loadedSolution.id = rs.getInt("id");
                 loadedSolution.description = rs.getString("description");
-                loadedSolution.user_id = rs.getInt("user_id");
-                loadedSolution.exercise_id = rs.getInt("exercise_id");
+                loadedSolution.user = User.loadById(rs.getInt("user_id"));
+                loadedSolution.exercise = Exercise.loadById(rs.getInt("exercise_id"));
                 loadedSolution.created = rs.getTimestamp("created");
                 loadedSolution.updated = rs.getTimestamp("updated");
                 solutions.add(loadedSolution);
@@ -162,8 +166,8 @@ public class Solution {
                 Solution loadedSolution = new Solution();
                 loadedSolution.id = rs.getInt("id");
                 loadedSolution.description = rs.getString("description");
-                loadedSolution.user_id = rs.getInt("user_id");
-                loadedSolution.exercise_id = rs.getInt("exercise_id");
+                loadedSolution.user = User.loadById(rs.getInt("user_id"));
+                loadedSolution.exercise = Exercise.loadById(rs.getInt("exercise_id"));
                 loadedSolution.created = rs.getTimestamp("created");
                 loadedSolution.updated = rs.getTimestamp("updated");
                 solutions.add(loadedSolution);
@@ -195,8 +199,8 @@ public class Solution {
     public static Solution[] loadAllByUserId(int id) {
         try (Connection conn = DbUtil.getConn()) {
             List<Solution> solutions = new ArrayList<>();
-            String sql = "SELECT * FROM Solutions WHERE user_id=?";
-            return loadAllBySQLQuery(id, conn, solutions, sql);
+            String sql = "SELECT * FROM Solutions WHERE user=?";
+            return loadAllSQLQuery(id, conn, solutions, sql);
         } catch (SQLException e) {
             System.out.println("Load failed: " + e.getMessage());
             return null;
@@ -206,15 +210,15 @@ public class Solution {
     public static Solution[] loadAllByExerciseId(int id) {
         try (Connection conn = DbUtil.getConn()) {
             List<Solution> solutions = new ArrayList<>();
-            String sql = "SELECT * FROM Solutions WHERE exercise_id=? ORDER BY created;";
-            return loadAllBySQLQuery(id, conn, solutions, sql);
+            String sql = "SELECT * FROM Solutions WHERE exercise=? ORDER BY created;";
+            return loadAllSQLQuery(id, conn, solutions, sql);
         } catch (SQLException e) {
             System.out.println("Load failed: " + e.getMessage());
             return null;
         }
     }
 
-    private static Solution[] loadAllBySQLQuery(int id, Connection conn, List<Solution> solutions, String sql) throws SQLException {
+    private static Solution[] loadAllSQLQuery(int id, Connection conn, List<Solution> solutions, String sql) throws SQLException {
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setInt(1, id);
         ResultSet rs = pstm.executeQuery();
@@ -222,8 +226,8 @@ public class Solution {
             Solution loadedSolution = new Solution();
             loadedSolution.id = rs.getInt("id");
             loadedSolution.description = rs.getString("description");
-            loadedSolution.user_id = rs.getInt("user_id");
-            loadedSolution.exercise_id = rs.getInt("exercise_id");
+            loadedSolution.user = User.loadById(rs.getInt("user_id"));
+            loadedSolution.exercise = Exercise.loadById(rs.getInt("exercise_id"));
             loadedSolution.created = rs.getTimestamp("created");
             loadedSolution.updated = rs.getTimestamp("updated");
             solutions.add(loadedSolution);
@@ -244,10 +248,10 @@ public class Solution {
                 .append(", description='")
                 .append(description)
                 .append('\'')
-                .append(", exercise_id=")
-                .append(exercise_id)
-                .append(", user_id=")
-                .append(user_id)
+                .append(", exercise=")
+                .append(exercise)
+                .append(", user=")
+                .append(user)
                 .append('}')
                 .toString();
     }

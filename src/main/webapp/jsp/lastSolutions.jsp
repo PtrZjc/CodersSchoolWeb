@@ -12,25 +12,26 @@
     <title>Index</title>
 </head>
 <body>
-
-<%--<jsp:include page="header.jspf"/>--%>
+<%@ include file="header.jspf" %>
 
 <table border="1px">
     <tr>
-        <td>User ID</td>
-        <td>Created</td>
-        <td>Solution description</td>
+        <th>User</th>
+        <th>Exercise title</th>
+        <th>Created</th>
+        <th>Contents</th>
     </tr>
-    <c:forEach items="${solutions}" var="sol">
+    <c:forEach items="${sessionScope.solutions}" var="sol">
         <tr>
-            <td>${sol.id}</td>
+            <td>${sol.user.username}</td>
+            <td>${sol.exercise.title}</td>
             <td>${sol.created}</td>
-            <td>${sol.description}</td>
+            <td><a href='<c:url value="/SolutionDetails?id="/>${sol.id}'>Details</a>
+            </td>
         </tr>
     </c:forEach>
 </table>
 
-<jsp:include page="footer.jspf"/>
-
+<%@ include file="footer.jspf" %>
 </body>
 </html>

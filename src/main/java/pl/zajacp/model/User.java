@@ -14,14 +14,14 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private Integer user_group_id;
+    private UserGroup userGroup;
 
-    public User(String username, String email, String password, int user_group_id) {
+    public User(String username, String email, String password, UserGroup userGroup) {
         this.id = 0;
         this.username = username;
         this.setPassword(password);
         this.setEmail(email);
-        this.user_group_id = user_group_id;
+        this.userGroup = userGroup;
     }
 
     public User() {
@@ -29,7 +29,7 @@ public class User {
         this.username = null;
         this.email = null;
         this.password = null;
-        this.user_group_id = null;
+        this.userGroup = null;
     }
 
     public int getId() {
@@ -75,12 +75,12 @@ public class User {
         return password;
     }
 
-    public int getUser_group_id() {
-        return user_group_id;
+    public UserGroup getUserGroup() {
+        return userGroup;
     }
 
-    public void setUser_group_id(int user_group_id) {
-        this.user_group_id = user_group_id;
+    public void setUserGroup(UserGroup userGroup) {
+        this.userGroup = userGroup;
     }
 
     public static User loadById(int id) {
@@ -95,7 +95,7 @@ public class User {
                 loadedUser.username = rs.getString("username");
                 loadedUser.password = rs.getString("password");
                 loadedUser.email = rs.getString("email");
-                loadedUser.user_group_id = rs.getInt("user_group_id");
+                loadedUser.userGroup = UserGroup.loadById(rs.getInt("user_group_id"));
                 return loadedUser;
             }
         } catch (SQLException e) {
@@ -118,7 +118,7 @@ public class User {
                 loadedUser.username = rs.getString("username");
                 loadedUser.password = rs.getString("password");
                 loadedUser.email = rs.getString("email");
-                loadedUser.user_group_id = rs.getInt("user_group_id");
+                loadedUser.userGroup = UserGroup.loadById(rs.getInt("user_group_id"));
                 users.add(loadedUser);
             }
             User[] returnArray = new User[users.size()];
@@ -142,7 +142,7 @@ public class User {
                 loadedUser.username = rs.getString("username");
                 loadedUser.password = rs.getString("password");
                 loadedUser.email = rs.getString("email");
-                loadedUser.user_group_id = rs.getInt("user_group_id");
+                loadedUser.userGroup = UserGroup.loadById(rs.getInt("user_group_id"));
                 users.add(loadedUser);
             }
             User[] returnArray = new User[users.size()];
@@ -161,7 +161,7 @@ public class User {
                 psmt.setString(1, this.username);
                 psmt.setString(2, this.email);
                 psmt.setString(3, this.password);
-                psmt.setInt(4, this.user_group_id);
+                psmt.setInt(4, this.userGroup.getId());
                 psmt.executeUpdate();
                 ResultSet rs = psmt.getGeneratedKeys();
                 if (rs.next()) {
@@ -173,7 +173,7 @@ public class User {
                 psmt.setString(1, this.username);
                 psmt.setString(2, this.email);
                 psmt.setString(3, this.password);
-                psmt.setInt(4, this.user_group_id);
+                psmt.setInt(4, this.userGroup.getId());
                 psmt.setInt(5, this.id);
                 psmt.executeUpdate();
             }
@@ -212,8 +212,8 @@ public class User {
                 .append(", email='")
                 .append(email)
                 .append('\'')
-                .append(", user_group_id=")
-                .append(user_group_id)
+                .append(", userGroup=")
+                .append(userGroup.getId())
                 .append('}')
                 .toString();
     }

@@ -7,21 +7,28 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @WebServlet("/")
 public class HomeServlet extends HttpServlet {
+
+    public static int numberSolutions;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession sess = request.getSession();
 
-        int numberSolutions = Integer.parseInt(getServletContext().getInitParameter("number-solutions"));
-        Solution[] solutions = Solution.loadAll(numberSolutions);
-        request.setAttribute("solutions", solutions);
+        numberSolutions = Integer.parseInt(getServletContext().getInitParameter("number-solutions"));
+        List<Solution> solutions = Arrays.asList(Solution.loadAll(numberSolutions));
 
-        getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
+        sess.setAttribute("solutions", solutions);
+
+        getServletContext().getRequestDispatcher("/jsp/lastSolutions.jsp").forward(request, response);
     }
 }
 
