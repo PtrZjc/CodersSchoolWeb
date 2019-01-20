@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @WebServlet("/")
-public class HomeServlet extends HttpServlet {
+public class ServletHome extends HttpServlet {
 
     public static int numberSolutions;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,9 +26,9 @@ public class HomeServlet extends HttpServlet {
         numberSolutions = Integer.parseInt(getServletContext().getInitParameter("number-solutions"));
         List<Solution> solutions = Arrays.asList(Solution.loadAll(numberSolutions));
 
-        sess.setAttribute("solutions", solutions);
+        request.setAttribute("solutions", solutions);
 
-        getServletContext().getRequestDispatcher("/jsp/lastSolutions.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/jsp/indexLastSolutions.jsp").forward(request, response);
     }
 }
 
