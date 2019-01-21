@@ -14,24 +14,12 @@ import java.util.List;
 
 import static pl.zajacp.controller.ServletHome.numberSolutions;
 
-@WebServlet("/ServletShowSolutionDetails")
+@WebServlet("/ShowSolutionDetails")
 public class ServletShowSolutionDetails extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession sess = request.getSession();
         int solutionId = Integer.parseInt(request.getParameter("id"));
-        String solutionAction = request.getParameter("do");
-
-//TODO podzielic wywalanie z bazy oraz more details na dwie niezależne klasy
-
-        if ("del".equals(solutionAction)) {
-            Solution solution = Solution.loadById(solutionId);
-            solution.delete();
-            List<Solution> solutions = Arrays.asList(Solution.loadAll(numberSolutions));
-            sess.setAttribute("message", "The record was deleted from the database");
-
-            response.sendRedirect(request.getContextPath() + "/ServletHome");;
-        }
 
         List<Solution> solutions = (List) sess.getAttribute("solutions");
         if (solutions == null) {
@@ -43,8 +31,8 @@ public class ServletShowSolutionDetails extends HttpServlet {
                 if (solutions.get(i).getUpdated() == null) {
                     solutions.get(i).setUpdated(solutions.get(i).getCreated());
                 }
+                sess.setAttribute("userDetailedSolution", solutions.get(i));
             }
-            sess.setAttribute("userDetailedSolution", solutions.get(i));
         }
         getServletContext().getRequestDispatcher("/jsp/detailedSolution.jsp").forward(request, response);
     }

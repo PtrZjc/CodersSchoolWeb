@@ -113,6 +113,29 @@ public class Exercise {
         }
     }
 
+    public static Exercise[] loadByUserId(int id) {
+        try (Connection conn = DbUtil.getConn()) {
+            List<Exercise> users = new ArrayList<>();
+            String sql = "SELECT Exercises.id, title, Exercises.description FROM Exercises JOIN Solutions ON Exercises.id=Solutions.exercise_id JOIN Users ON Solutions.user_id=Users.id WHERE user_id=?";
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, id);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                Exercise loadedExercise = new Exercise();
+                loadedExercise.id = rs.getInt("id");
+                loadedExercise.title = rs.getString("title");
+                loadedExercise.description = rs.getString("description");
+                users.add(loadedExercise);
+            }
+
+            Exercise[] returnArray = new Exercise[users.size()];
+            return users.toArray(returnArray);
+        } catch (SQLException e) {
+            System.out.println("Load failed: " + e.getMessage());
+            return null;
+        }
+    }
+
     public boolean delete() {
         try (Connection conn = DbUtil.getConn()) {
             if (this.id != 0) {

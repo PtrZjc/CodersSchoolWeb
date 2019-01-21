@@ -10,7 +10,7 @@
             <a class="nav-link" href=''></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href='<c:url value="/" />'>The user groups</a>
+            <a class="nav-link" href='<c:url value="/ShowGroups" />'>The user groups</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href=''></a>
