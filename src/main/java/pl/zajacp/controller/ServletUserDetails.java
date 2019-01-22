@@ -22,11 +22,10 @@ public class ServletUserDetails extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
 
         User user = User.loadById(id);
-//todo naprawić to:
         List<Exercise> exercises = Arrays.asList(Exercise.loadByUserId(id));
 
-        sess.setAttribute("user", user);
-        sess.setAttribute("exercises", exercises);
+        request.setAttribute("user", user);
+        request.setAttribute("exercises", exercises);
 
         getServletContext().getRequestDispatcher("/jsp/userDetails.jsp").forward(request, response);
     }

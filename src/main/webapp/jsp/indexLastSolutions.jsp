@@ -22,7 +22,7 @@
         <th>Created</th>
         <th>Action</th>
     </tr>
-    <c:forEach items="${sessionScope.solutions}" var="sol">
+    <c:forEach items="${solutions}" var="sol">
         <tr>
             <td>${sol.user.username}</td>
             <td>${sol.exercise.title}</td>

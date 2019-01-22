@@ -20,7 +20,7 @@ public class ServletShowUsersFromGroup extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
 
         List<User>users = Arrays.asList(User.loadAllByGroupId(id));
-        sess.setAttribute("users", users);
+        request.setAttribute("users", users);
 
         getServletContext().getRequestDispatcher("/jsp/showUsers.jsp").forward(request, response);
     }

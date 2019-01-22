@@ -19,20 +19,22 @@
 
     <table class="table table-striped">
         <tr>
+
             <th>User</th>
             <th>Exercise title</th>
             <th>Created</th>
             <th>Updated</th>
         </tr>
         <tr>
-            <td>${sessionScope.userDetailedSolution.user.username}</td>
-            <td>${sessionScope.userDetailedSolution.exercise.title}</td>
-            <td>${sessionScope.userDetailedSolution.created}</td>
-            <td>${sessionScope.userDetailedSolution.updated}</td>
+
+            <td>${userDetailedSolution.user.username}</td>
+            <td>${userDetailedSolution.exercise.title}</td>
+            <td>${userDetailedSolution.created}</td>
+            <td>${userDetailedSolution.updated}</td>
         </tr>
         <tr>
-            <td>Description:</td>
-            <td colspan="3" class="text-center" >${sessionScope.userDetailedSolution.description}</td>
+            <th>Description:</th>
+            <td colspan="3" class="text-center" >${userDetailedSolution.description}</td>
         </tr>
     </table>
 

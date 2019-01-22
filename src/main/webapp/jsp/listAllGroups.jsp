@@ -15,7 +15,7 @@
         <th>User group name</th>
         <th>Action</th>
     </tr>
-    <c:forEach items="${sessionScope.userGroups}" var="ug">
+    <c:forEach items="${userGroups}" var="ug">
         <tr>
             <td>${ug.id}</td>
             <td>${ug.name}</td>

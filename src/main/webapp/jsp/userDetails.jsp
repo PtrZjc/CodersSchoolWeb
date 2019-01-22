@@ -30,7 +30,7 @@
         <th>Title</th>
         <th>Action</th>
     </tr>
-    <c:forEach items="${sessionScope.exercises}" var="ex">
+    <c:forEach items="${exercises}" var="ex">
         <tr>
             <td>${ex.id}</td>
             <td>${ex.title}</td>

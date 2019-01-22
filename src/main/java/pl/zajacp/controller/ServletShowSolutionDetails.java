@@ -21,17 +21,14 @@ public class ServletShowSolutionDetails extends HttpServlet {
         HttpSession sess = request.getSession();
         int solutionId = Integer.parseInt(request.getParameter("id"));
 
-        List<Solution> solutions = (List) sess.getAttribute("solutions");
-        if (solutions == null) {
-            solutions = Arrays.asList(Solution.loadAll(numberSolutions));
-        }
+        List<Solution>solutions = Arrays.asList(Solution.loadAll(numberSolutions));
 
         for (int i = 0; i < solutions.size(); i++) {
             if (solutions.get(i).getId() == solutionId) {
                 if (solutions.get(i).getUpdated() == null) {
                     solutions.get(i).setUpdated(solutions.get(i).getCreated());
                 }
-                sess.setAttribute("userDetailedSolution", solutions.get(i));
+                request.setAttribute("userDetailedSolution", solutions.get(i));
             }
         }
         getServletContext().getRequestDispatcher("/jsp/detailedSolution.jsp").forward(request, response);

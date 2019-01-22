@@ -15,7 +15,7 @@
         <th>Username</th>
         <th>Action</th>
     </tr>
-    <c:forEach items="${sessionScope.users}" var="us">
+    <c:forEach items="${users}" var="us">
         <tr>
             <td>${us.id}</td>
             <td>${us.username}</td>
