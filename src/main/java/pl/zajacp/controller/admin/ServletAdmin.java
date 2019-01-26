@@ -1,4 +1,4 @@
-package pl.zajacp.controller;
+package pl.zajacp.controller.admin;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
