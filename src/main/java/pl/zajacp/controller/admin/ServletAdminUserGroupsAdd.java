@@ -13,16 +13,21 @@ import java.io.IOException;
 public class ServletAdminUserGroupsAdd extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String groupName = request.getParameter("userGroup");
+        String groupName = request.getParameter("groupName");
 
-        UserGroup ug = new UserGroup();
+        UserGroup ug = new UserGroup(groupName);
 
-        if(ug.save()){
+        if (ug.save()) {
             request.setAttribute("add", "complete");
         } else {
             request.setAttribute("add", "failed");
         }
 
-        getServletContext().getRequestDispatcher("/jsp/manageUserGroups.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/jsp/manageUserGroupsAdd.jsp").forward(request, response);
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        getServletContext().getRequestDispatcher("/jsp/manageUserGroupsAdd.jsp").forward(request, response);
     }
 }
