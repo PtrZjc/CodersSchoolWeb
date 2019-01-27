@@ -30,11 +30,11 @@
         <th>Title</th>
         <th>Action</th>
     </tr>
-    <c:forEach items="${exercises}" var="ex">
+    <c:forEach items="${exercises}" var="us">
         <tr>
-            <td>${ex.id}</td>
-            <td>${ex.title}</td>
-            <td><a href='<c:url value="/ShowSolutionDetails?&id="/>${ex.id}'>Solution details</a>
+            <td>${us.id}</td>
+            <td>${us.title}</td>
+            <td><a href='<c:url value="/ShowSolutionDetails?&id="/>${us.id}'>Solution details</a>
             </td>
         </tr>
     </c:forEach>

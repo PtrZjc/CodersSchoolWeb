@@ -35,26 +35,30 @@
 
 <table class="table table-striped border border-0">
     <tr>
-        <th class="text-center">User group ID</th>
-        <th>User group name</th>
+        <th class="text-center">Exercise ID</th>
+        <th>Title</th>
+        <th>Description</th>
         <th class="text-center" colspan="2">Action</th>
     </tr>
 
-    <c:forEach items="${userGroups}" var="us">
+    <c:forEach items="${exercises}" var="us">
         <tr>
-            <td class="text-center" style="width: 20%">
+            <td class="text-center">
                     ${us.id}
             </td>
             <td>
-                    ${us.name}
+                    ${us.title}
+            </td>
+            <td>
+                    ${us.description}
             </td>
             <td class="text-center">
-                <a href='<c:url value="/ManageUserGroups?&id=${us.id}&action=modify"/>'>
+                <a href='<c:url value="/ManageExercises?&id=${us.id}&action=modify"/>'>
                     Modify
                 </a>
             </td>
             <td class="text-center">
-                <a href='<c:url value="/ManageUserGroups?&id=${us.id}&action=delete"/>'>
+                <a href='<c:url value="/ManageExercises?&id=${us.id}&action=delete"/>'>
                     Delete
                 </a>
             </td>

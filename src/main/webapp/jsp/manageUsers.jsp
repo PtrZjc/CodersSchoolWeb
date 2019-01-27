@@ -22,7 +22,7 @@
     <c:when test="${delete=='failed'}">
         <div class="alert alert-danger alert-dismissible">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Fail!</strong> A group with assigned users can not be deleted.
+            <strong>Fail!</strong> Record deletion failed.
         </div>
     </c:when>
     <c:when test="${update=='complete'}">
@@ -35,26 +35,34 @@
 
 <table class="table table-striped border border-0">
     <tr>
-        <th class="text-center">User group ID</th>
-        <th>User group name</th>
+        <th class="text-center">User ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Group name</th>
         <th class="text-center" colspan="2">Action</th>
     </tr>
 
-    <c:forEach items="${userGroups}" var="us">
+    <c:forEach items="${users}" var="us">
         <tr>
-            <td class="text-center" style="width: 20%">
+            <td class="text-center">
                     ${us.id}
             </td>
             <td>
-                    ${us.name}
+                    ${us.username}
+            </td>
+            <td>
+                    ${us.email}
+            </td>
+            <td>
+                    ${us.userGroup.name}
             </td>
             <td class="text-center">
-                <a href='<c:url value="/ManageUserGroups?&id=${us.id}&action=modify"/>'>
+                <a href='<c:url value="/ManageUsers?&id=${us.id}&action=modify"/>'>
                     Modify
                 </a>
             </td>
             <td class="text-center">
-                <a href='<c:url value="/ManageUserGroups?&id=${us.id}&action=delete"/>'>
+                <a href='<c:url value="/ManageUsers?&id=${us.id}&action=delete"/>'>
                     Delete
                 </a>
             </td>

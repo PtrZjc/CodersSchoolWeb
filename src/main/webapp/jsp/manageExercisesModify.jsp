@@ -25,18 +25,32 @@
     </c:when>
 </c:choose>
 
-<form action="/AddUserGroup" method="post">
+<form action="/ManageExercises" method="post">
     <div class="row">
         <div class="col"></div>
-        <div class="col"><h4>Add an user group to database.</h4></div>
+        <div class="col"><h4>Modify user group with id ${modified.id}</h4></div>
         <div class="col"></div>
     </div>
     <div class="row">
         <div class="col"></div>
+
         <div class="col">
             <div class="form-group">
-                <label for="groupName">Group name:</label>
-                <input type="text" class="form-control" id="groupName" name="groupName">
+                <label for="title">Exercise title:</label>
+                <input type="hidden" name="id" value="${modified.id}">
+                <input type="text" class="form-control" id="title" name="title" value="${modified.title}">
+            </div>
+        </div>
+        <div class="col"></div>
+
+    </div>
+
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <div class="form-group">
+                <label for="description">Exercise description:</label>
+                <textarea class="form-control" rows="5" id="description" name="description">${modified.description}</textarea>
             </div>
         </div>
         <div class="col"></div>

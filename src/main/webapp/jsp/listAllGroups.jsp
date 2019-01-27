@@ -15,11 +15,11 @@
         <th>User group name</th>
         <th>Action</th>
     </tr>
-    <c:forEach items="${userGroups}" var="ug">
+    <c:forEach items="${userGroups}" var="us">
         <tr>
-            <td>${ug.id}</td>
-            <td>${ug.name}</td>
-            <td><a href='<c:url value="/ShowUsersFromGroup?&id="/>${ug.id}'>Show users</a>
+            <td>${us.id}</td>
+            <td>${us.name}</td>
+            <td><a href='<c:url value="/ShowUsersFromGroup?&id="/>${us.id}'>Show users</a>
             </td>
         </tr>
     </c:forEach>

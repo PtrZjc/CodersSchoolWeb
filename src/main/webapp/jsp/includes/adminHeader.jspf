@@ -14,8 +14,8 @@
                 Manage users
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Modify</a>
-                <a class="dropdown-item" href="#">Add</a>
+                <a class="dropdown-item" href="<c:url value="/ManageUsers"/>">Modify</a>
+                <a class="dropdown-item" href="<c:url value="/AddUser"/>">Add</a>
             </div>
         </li>
         <li class="nav-item dropdown">
@@ -23,8 +23,8 @@
                 Manage exercises
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Modify</a>
-                <a class="dropdown-item" href="#">Add</a>
+                <a class="dropdown-item" href="<c:url value="/ManageExercises"/>">Modify</a>
+                <a class="dropdown-item" href="<c:url value="/AddExercise"/>">Add</a>
             </div>
         </li>
     </ul>
